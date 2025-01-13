@@ -31,13 +31,12 @@ const (
 
 // Helper method to make design evaluation based on the relationship policies.
 func (h *Handler) EvaluateDesign(
-	relationshipPolicyEvalPayload pattern.EvaluationRequest,
+	relationshipPolicyEvalPayload pattern.EvaluationRequest, debug bool,
 ) (pattern.EvaluationResponse, error) {
-
 	// evaluate specified relationship policies
 	// on successful eval the event containing details like comps evaulated, relationships indeitified should be emitted and peristed.
 	evaluationResponse, err := h.Rego.RegoPolicyHandler(relationshipPolicyEvalPayload.Design,
-		RelationshipPolicyPackageName,
+		RelationshipPolicyPackageName, debug,
 	)
 	if err != nil {
 		h.log.Debug(err)
@@ -201,9 +200,12 @@ func (h *Handler) EvaluateRelationshipPolicy(
 	patternUUID := relationshipPolicyEvalPayload.Design.Id
 	eventBuilder.ActedUpon(patternUUID)
 
+	// check if current log level is debug (5)
+	evaluateWithDebug := h.log.GetLevel() == 5
+
 	// evaluate specified relationship policies
 	// on successful eval the event containing details like comps evaulated, relationships indeitified should be emitted and peristed.
-	evaluationResponse, err := h.EvaluateDesign(relationshipPolicyEvalPayload)
+	evaluationResponse, err := h.EvaluateDesign(relationshipPolicyEvalPayload, evaluateWithDebug)
 
 	if err != nil {
 		h.log.Debug(err)

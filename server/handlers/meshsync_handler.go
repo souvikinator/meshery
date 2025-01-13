@@ -347,7 +347,7 @@ func (h *Handler) GetMeshSyncResources(rw http.ResponseWriter, r *http.Request, 
 		// evalResponse, error := h.Rego.RegoPolicyHandler(rawDesign, RelationshipPolicyPackageName)
 		evalResponse, error := h.EvaluateDesign(pattern.EvaluationRequest{
 			Design: rawDesign,
-		})
+		}, true)
 
 		if error != nil {
 			design = rawDesign
