@@ -159,6 +159,7 @@ const (
 	cmdModelList                cmdType = "model list"
 	cmdModelImport              cmdType = "model import"
 	cmdModelView                cmdType = "model view"
+	cmdModelInit                cmdType = "model init"
 	cmdRegistry                 cmdType = "regisry"
 	cmdRegistryPublish          cmdType = "registry publish"
 	cmdRegistryGenerate         cmdType = "registry generate"

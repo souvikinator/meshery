@@ -52,6 +52,7 @@ var (
 	ErrMissingCommandsCode        = "mesheryctl-1137"
 	ErrKubernetesConnectivityCode = "mesheryctl-1138"
 	ErrKubernetesQueryCode        = "mesheryctl-1139"
+	ErrModelInitCode              = "replace_me"
 )
 
 // RootError returns a formatted error message with a link to 'root' command usage page at
@@ -154,6 +155,8 @@ func SystemModelSubError(msg string, cmd string) string {
 		return formatError(msg, cmdModelView)
 	case "import":
 		return formatError(msg, cmdModelImport)
+	case "init":
+		return formatError(msg, cmdModelInit)
 	default:
 		return formatError(msg, cmdModel)
 	}
@@ -335,6 +338,8 @@ func formatError(msg string, cmd cmdType) string {
 		return formatUsageDetails(msg, modelImportURl)
 	case cmdModelView:
 		return formatUsageDetails(msg, modelViewURL)
+	case cmdModelInit:
+		return formatUsageDetails(msg, modelUsageURL) // TODO: update URL
 	case cmdRegistry:
 		return formatUsageDetails(msg, registryUsageURL)
 	case cmdRegistryPublish:
@@ -678,4 +683,13 @@ func ErrKubernetesConnectivity(err error) error {
 
 func ErrKubernetesQuery(err error) error {
 	return errors.New(ErrKubernetesQueryCode, errors.Alert, []string{"Failed to query Kubernetes API"}, []string{err.Error()}, []string{"Kubernetes API query failed"}, []string{"Ensure your Kubernetes cluster is running and accessible"})
+}
+
+// TODO: update
+func ErrModelInit(err error, details string) error {
+	return errors.New(ErrModelInitCode, errors.Alert,
+		[]string{details},
+		[]string{err.Error()},
+		[]string{"Verify input parameters", "Check permissions", "Ensure valid model name"},
+		[]string{"See https://docs.meshery.io for help getting started with Meshery"})
 }
